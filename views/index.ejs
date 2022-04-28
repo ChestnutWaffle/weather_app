@@ -5,12 +5,17 @@
     <title>Weather App</title>
   </head>
   <body>
-    <h1>Hello</h1>
+    <h1>Weather App</h1>
     <form class="" action="/" method="post">
-      <input type="text" name="city" value="">
+      <input type="text" name="city" value="" placeholder = "Location" />
     </form>
 
-    <p> <%= label %> </p>
+    <p><%= label %></p>
+    <p>Temperature: <%= (current.temp - 273).toFixed(2)  %> &#176;C</p>
+    <p>Feels like: <%= (current.feels_like - 273).toFixed(2) %> &#176;C</p>
+    <p>Pressure: <%= (current.pressure * 0.0009869233).toFixed(2) %> atm</p>
+    <p>Humidity: <%= current.humidity %> %</p>
+    <p>Wind Speed: <%= current.wind_speed %> m/sec</p>
 
   </body>
 </html>

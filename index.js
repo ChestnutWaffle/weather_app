@@ -16,17 +16,36 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const WEATHER_API_KEY = "3cc7aab936333063bbfce31ca1128996";
 const GEO_API_KEY = "b96fed1ffa962c35406cf0a6b043f087";
 
-var current = null;
-var location = "NewDelhi,India";
-var label = location;
 
-var lat = 0;
-var lon = 0;
+var location = "NewDelhi,India";
+var label = 'New Delhi, DL, India';
+
+var lat = 28.557163;
+var lon = 77.163665;
 
 app.route('/')
 .get((req, res) => {
+  
+  location = "NewDelhi,India";
+  label = 'New Delhi, DL, India';
+  lat = 28.557163;
+  lon = 77.163665;
   console.log(label);
-  res.render('index', {current : current, label: label});
+  var weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${WEATHER_API_KEY}`;
+  request(weatherUrl, function(err1, response1, body1) {
+        if (err1) {
+            res.render('index', { weather: null, error: 'Could not get weather data' });
+        } else {
+            let weather = JSON.parse(body1);
+            console.log(weather);
+            console.log(label);
+            res.render('index',
+              {
+                current: weather.current,
+                label: label
+              });
+          }
+  });
 })
 .post((req,res) => {
   location = req.body.city;
@@ -53,7 +72,7 @@ app.route('/')
                   let weather = JSON.parse(body1);
                   console.log(weather);
                   console.log(label);
-                  res.render('index', {current : current, label: label});
+                  res.render('index', {current : weather.current, label: label});
 
                 }
         });
