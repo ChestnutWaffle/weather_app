@@ -70,7 +70,7 @@ app.route('/')
 })
 .post((req,res) => {
   location = req.body.city;
-  console.log(req.body.city);
+  // console.log(req.body.city);
   if (req.body.city === '') {
     res.redirect('/');
   } else {
@@ -81,7 +81,7 @@ app.route('/')
     } else {
 
         let geoData = JSON.parse(body);
-        console.log(geoData);
+        // console.log(geoData);
         if (geoData.error || geoData.data[0] === undefined) {
           res.redirect('/');
         } else {
@@ -125,6 +125,6 @@ app.route('/')
 
 
 app.listen(process.env.PORT ||3000, () => {
-  console.log("Listening on http://localhost:3000");
+  // console.log("Listening on http://localhost:3000");
 
 });
