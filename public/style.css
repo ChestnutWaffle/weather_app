@@ -1,0 +1,110 @@
+html, body {
+  font-family: "Montserrat", sans-serif;
+}
+
+
+
+.canvas {
+  margin: 10px auto;
+  min-height: 15rem;
+  max-width: 85vw;
+  min-width: 40vw;
+  margin-bottom: 50px;
+  padding: 1.5rem auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 25px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease-in-out;
+}
+.canvas:hover {
+  box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.4);
+}
+.canvas>h2{
+  margin: 0 1.5rem;
+  padding: 15px 0;
+}
+.chart-container {
+    position: relative;
+    margin: auto;
+    min-height: 40vh;
+    max-height: 40vh;
+    width: 80vw;
+}
+
+.flexing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 90vw;
+  gap: 3rem;
+}
+
+.container {
+  margin-bottom: 80px
+}
+
+.current-forecast {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.takeInput {
+  margin-top: 1.5rem;
+  /* margin-left: 5vw; */
+  /* border: 1px solid red; */
+  min-width: 30vw;
+  min-height: 14rem;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.col-md-3 > h6 {
+  text-align: center;
+  /* font-size: small; */
+  padding: 10px 0
+}
+
+.card {
+
+}
+
+#info {
+  text-align: start;
+}
+
+.input-location{
+  margin: auto 0;
+}
+
+.card {
+  border: none;
+  outline: none;
+}
+
+.nav {
+  margin-top: 0.3rem;
+}
+
+#formLocation {
+  margin-top: 2rem;
+}
+
+
+.anchor{
+  display: block;
+  height: 115px; /*same height as header*/
+  margin-top: -115px; /*same height as header*/
+  visibility: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+  #info {
+    text-align: center;
+  }
+}

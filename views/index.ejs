@@ -6,91 +6,235 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <style >
-    .canvas {
-      margin: 10px auto;
-      height: 350px;
-      width: 1200px;
-      box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.5);
-      margin-bottom: 500px;
-      padding: 10px 50px;
-      border-radius: 10px;
-    }
-    .canvas>h2{
-      margin-left: 50px;
-      padding: 15px 0;
-    }
-  </style>
-
-
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/weather-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9982dda365.js" crossorigin="anonymous"></script>
 
   </head>
   <body>
-    <h1>Weather App</h1>
-    <form class="" action="/" method="post">
-      <input type="text" name="city" value="" placeholder = "Location" autocomplete="off"/>
-    </form>
-    <div class="current-forecast">
-      <p><%= label %></p>
-      <p>Temperature: <%= (current.temp).toFixed(2)  %> &#176;C</p>
-      <p>Feels like: <%= (current.feels_like).toFixed(2) %> &#176;C</p>
-      <p>Pressure: <%= (current.pressure * 0.0009869233).toFixed(2) %> atm</p>
-      <p>Humidity: <%= current.humidity %> %</p>
-      <p>Wind Speed: <%= current.wind_speed %> m/sec</p>
-      <img src="http://openweathermap.org/img/wn/<%= current.weather[0].icon %>@2x.png" alt="">
-      <p>Description: <%= current.weather[0].description %></p>
-      <p>Date is: <%= date %></p>
-      <p>Time is: <%= time %></p>
+    <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <h1>Weather App</h1>
+      </a>
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#HourlyChart" class="nav-link">Hourly Forecast</a></li>
+        <li class="nav-item"><a href="#Days7Chart" class="nav-link">7 Day Forecast</a></li>
+      </ul>
+    </header>
+  </div>
+  <div class="container">
+
+    <div class="flexing">
+
+    <div class="takeInput">
+      <h2><%= date %></h2>
+      <h3><%= time %></h3>
+      <form class="" action="/" method="post" id="formLocation">
+        <div class="input-group input-location">
+          <input name="city" type="text" class="form-control" placeholder="Enter Location" aria-label="Input Location" aria-describedby="button-addon2" autocomplete="off">
+          <button class="btn btn-outline-primary" type="submit" id="button-addon2">Go</button>
+        </div>
+      </form>
     </div>
 
+    <div class="current-forecast">
+
+      <div class="card mb-6">
+        <div class="row g-0">
+          <div class="col-md-3">
+            <img src="http://openweathermap.org/img/wn/<%= current.weather[0].icon %>@4x.png" class="img-fluid rounded-start" alt="...">
+            <h6 class="card-text text-muted"><%= current.weather[0].description %></h6>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body" id="info">
+              <h4 class="card-title"><%= label %></h4>
+              <h5 class="card-text"><i class="fa fa-solid fa-temperature-half"></i> <%= (current.temp).toFixed(2)  %> &#176;C</h5>
+              <p class="card-text text-muted">Feels like <%= (current.feels_like).toFixed(2) %> &#176;C</p>
+              <p class="card-text"><i class="fa-solid fa-gauge-high"></i> <%= (current.pressure * 0.0009869233).toFixed(2) %> atm<br />
+                <i class="fa-solid fa-droplet"></i> <%= current.humidity %> %<br />
+                <i class="fa-solid fa-wind"></i> <%= current.wind_speed %> m/sec<br />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <span class="anchor" id="HourlyChart"></span>
     <div class="canvas">
       <h2>Hourly Forecast</h2>
-      <canvas id="hourly" width="1500" height="300"></canvas>
+      <div class="chart-container">
+        <canvas id="hourly"></canvas>
+      </div>
+    </div>
+
+    <span class="anchor" id="Days7Chart"></span>
+    <div class="canvas" >
+      <h2>7 Day Forecast</h2>
+      <div class="chart-container">
+        <canvas id="daily"></canvas>
+      </div>
 
     </div>
+
+
 <script>
-const ctx = document.getElementById('hourly');
-const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [
-          <% (hourlyData.labels).forEach((time)=>{ %>
-            '<%= time %>',
-          <% }); %>
+const chartOptions = {
+  bezierCurve: true,
+  maintainAspectRatio: false,
+  layout: {
+    padding: 10
+  },
+    scales: {
+        y: {
+            beginAtZero: true
+        }
+    }
+}
+
+const hourlydata = {
+    labels: [
+      <% (hourlyData.labels).forEach((time)=>{ %>
+        '<%= time %>',
+      <% }); %>
+    ],
+    datasets: [
+      <% (hourlyData.datasets).forEach((dataset)=> { %>
+
+        {
+          type: '<%= dataset.type %>',
+          label: '<%= dataset.label %>',
+          data: [
+            <% (dataset.data).forEach((data) =>{ %>
+              <%= data %>,
+            <% }) %>
+          ],
+          backgroundColor: '<%= dataset.backgroundColor %>',
+          borderColor: '<%= dataset.borderColor %>',
+          borderWidth: <%= dataset.borderWidth %>,
+          borderJoinStyle: 'round',
+          <% if(dataset.yAxisID) { %>
+          yAxisID: '<%= dataset.yAxisID %>',
+          <% } %>
+          tension: 0.4,
+          pointStyle: 'rectRounded',
+          pointRadius: 7,
+          pointHoverRadius: 10
+        },
+
+      <% }); %>
+    ]
+}
+
+const dailydata = {
+  labels: [
+    <% (dailyData.labels).forEach((time)=>{ %>
+      '<%= time %>',
+    <% }); %>
+  ],
+  datasets: [
+    <% (dailyData.datasets).forEach((dataset)=> { %>
+
+      {
+        type: '<%= dataset.type %>',
+        label: '<%= dataset.label %>',
+        data: [
+          <% (dataset.data).forEach((data) =>{ %>
+            <%= data %>,
+          <% }) %>
         ],
-        datasets: [
-          <% (hourlyData.datasets).forEach((dataset)=> { %>
+        backgroundColor: '<%= dataset.backgroundColor %>',
+        borderColor: '<%= dataset.borderColor %>',
+        borderWidth: <%= dataset.borderWidth %>,
+        borderJoinStyle: 'round',
+        <% if(dataset.yAxisID) { %>
+        yAxisID: '<%= dataset.yAxisID %>',
+        <% } %>
+        tension: 0.4,
+        pointStyle: 'rectRounded',
+        pointRadius: 7,
+        pointHoverRadius: 10
 
-            {
-              label: '<%= dataset.label %>',
-              data: [
-                <% (dataset.data).forEach((data) =>{ %>
-                  <%= data %>,
-                <% }) %>
-              ],
-              backgroundColor: '<%= dataset.backgroundColor %>',
-              borderColor: '<%= dataset.borderColor %>',
-              borderWidth: <%= dataset.borderWidth %>
+      },
 
-            },
+    <% }); %>
+  ]
+}
 
-          <% }); %>
-        ]
-    },
+
+
+const ctx = document.getElementById('hourly');
+const hourlyChart = new Chart(ctx, {
+    // type: 'line',
+    data: hourlydata,
     options: {
+      bezierCurve: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: 10
+      },
         scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time'
+              }
+            },
             y: {
                 beginAtZero: true
-            }
+            },
+            yAxes: [{
+              id: "left-y-axis",
+              type: "linear",
+              position: "left",
+            }, {
+              id: "right-y-axis",
+              type: "linear",
+              position: "right",
+            }],
         }
     }
 });
+
+const ctx2 = document.getElementById('daily');
+const dailyChart = new Chart(ctx2, {
+  // type: 'line',
+  data: dailydata,
+  options: {
+    bezierCurve: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: 10
+    },
+      scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Date'
+            }
+          },
+          y: {
+              beginAtZero: true
+          },
+          yAxes: [{
+            id: "left-y-axis",
+            type: "linear",
+            position: "left",
+          }, {
+            id: "right-y-axis",
+            type: "linear",
+            position: "right",
+          }],
+      }
+  }
+})
+
+
 </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  <script>
-  if ( window.history.replaceState ) {
-    window.history.replaceState( null, null, window.location.href );
-  }
-  </script>
   </body>
 </html>
