@@ -94,8 +94,11 @@
         </div>
         <script type="text/javascript">
           var offset = <%= offset %>;
+          console.log(`Offset: ${offset}`);
           var dateUnix = new Date().getTime();
           var date = new Date(dateUnix + offset);
+          console.log(`unix: ${dateUnix}`);
+          console.log(`dateunix + offset: ${dateUnix + offset}`);
           var dateEl = document.getElementById("date");
           dateEl.innerHTML = date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
