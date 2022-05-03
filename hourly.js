@@ -33,7 +33,7 @@ module.exports = function(hourly, timezone_offset) {
   for (var i=0; i< 24; i++){
     var hour = hourly[i];
     var timeRaw = new Date((hour.dt-19800+timezone_offset)*1000);
-    var timeAtIns = timeRaw.toLocaleTimeString('en-US');
+    var timeAtIns = timeRaw.toLocaleTimeString('en-US', {timeZone: 'UTC', hour: '2-digit', minute: '2-digit', second: '2-digit'});
     times.push(`${timeAtIns}`);
 
     temps.push(hour.temp);
