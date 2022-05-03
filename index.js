@@ -49,9 +49,7 @@ app.route('/')
         let weather = JSON.parse(body);
         // console.log(weather);
         // console.log(label);
-        var date = new Date();
-        var offset = date.getTimezoneOffset();
-        var netOffset = (offset * 60 + weather.timezone_offset) * 1000;
+        var netOffset = weather.timezone_offset * 1000;
         var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
         var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
         // console.log(dailyData.datasets);
@@ -104,9 +102,7 @@ app.route('/')
                 let weather = JSON.parse(body1);
                 // console.log(weather);
                 // console.log(label);
-                var date = new Date();
-                var offset = date.getTimezoneOffset();
-                var netOffset = ((offset * 60) + weather.timezone_offset) * 1000;
+                var netOffset = (weather.timezone_offset) * 1000;
                 var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
                 var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
                 // console.log(dailyData.datasets[0].yAxisID);

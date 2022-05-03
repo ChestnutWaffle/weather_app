@@ -37,7 +37,7 @@ module.exports = function(daily, timezone_offset) {
 
   for (var i=0; i< 7; i++){
     var day = daily[i];
-    var timeRaw = new Date((day.dt-19800+timezone_offset)*1000);
+    var timeRaw = new Date((day.dt+timezone_offset)*1000);
     var timeAtIns = timeRaw.toLocaleString('en-US', {month: 'long', day: 'numeric'});
     times.push(`${timeAtIns}`);
 
