@@ -9,16 +9,16 @@ module.exports = function(daily, timezone_offset) {
   var pressures = [];
   var humidities = [];
   var winds = [];
-  var label =  ["Avg. Temperature (Celcius)", "Min. Temperature (Celcius)", "Max. Temperature (Celcius)", "Pressure (atm)", "% Humidity", "Wind Speed (m/sec)"];
-  var types= ['line', 'line', 'line', 'bar', 'line', 'bar'];
+  var label =  ["Avg. Temperature (Celcius)", "Min. Temperature (Celcius)", "Max. Temperature (Celcius)", "% Humidity","Pressure (atm)",  "Wind Speed (m/sec)"];
+  var types= ['line', 'line', 'line','line', 'bar',  'bar'];
   var yAxisID = "right-y-axis";
 
   var backgroundColors = [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(155,234,54,0.2)',
                 'rgba(255, 159, 64, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
 
@@ -28,8 +28,8 @@ module.exports = function(daily, timezone_offset) {
                 'rgba(255, 99, 132, 1)',
                 'rgba(155,234,54,1)',
                 'rgba(255, 159, 64, 1)',
-                'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
+                'rgba(54, 162, 235, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
 
@@ -38,7 +38,7 @@ module.exports = function(daily, timezone_offset) {
   for (var i=0; i< 7; i++){
     var day = daily[i];
     var timeRaw = new Date((day.dt-19800+timezone_offset)*1000);
-    var timeAtIns = timeRaw.toLocaleDateString();
+    var timeAtIns = timeRaw.toLocaleString('en-US', {month: 'long', day: 'numeric'});
     times.push(`${timeAtIns}`);
 
     avgtemps.push(((day.temp.min + day.temp.max) / 2).toFixed(2));
@@ -53,13 +53,13 @@ module.exports = function(daily, timezone_offset) {
     winds.push(day.wind_speed);
   }
 
-  data = [avgtemps, mintemps, maxtemps, pressures, humidities, winds];
+  data = [avgtemps, mintemps, maxtemps,humidities, pressures,  winds];
 
   var datasets = [];
 
   for(var j=0; j<6; j++) {
     var dataset ={};
-    if( j == 3 || j == 5) {
+    if( j == 4 || j == 5) {
       dataset = {
         type: types[j],
         label: label[j],
