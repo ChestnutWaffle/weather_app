@@ -106,9 +106,7 @@ app.route('/')
                 // console.log(label);
                 var date = new Date();
                 var offset = date.getTimezoneOffset();
-                console.log(offset*60*1000);
                 var netOffset = ((offset * 60) + weather.timezone_offset) * 1000;
-                console.log(netOffset);
                 var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
                 var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
                 // console.log(dailyData.datasets[0].yAxisID);
