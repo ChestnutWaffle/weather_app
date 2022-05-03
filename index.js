@@ -47,7 +47,7 @@ app.route('/')
         res.render('index', { weather: null, error: 'Could not get weather data' });
       } else {
         let weather = JSON.parse(body);
-        console.log(weather);
+        // console.log(weather);
         // console.log(label);
         var date = new Date();
         var offset = date.getTimezoneOffset();
@@ -102,11 +102,11 @@ app.route('/')
                 res.render('index', { weather: null, error: 'Could not get weather data' });
               } else {
                 let weather = JSON.parse(body1);
-                console.log(weather);
+                // console.log(weather);
                 // console.log(label);
                 var date = new Date();
                 var offset = date.getTimezoneOffset();
-                console.log(offest*60*1000);
+                console.log(offset*60*1000);
                 var netOffset = ((offset * 60) + weather.timezone_offset) * 1000;
                 var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
                 var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
