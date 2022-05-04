@@ -23,6 +23,7 @@ html, body {
   font-family: "Montserrat", sans-serif;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  overflow-x: hidden;
 }
 
 .anchor{
