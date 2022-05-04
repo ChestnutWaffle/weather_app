@@ -36,3 +36,18 @@ html, body {
 #logo {
   width: max-content;
 }
+
+@media (max-width: 320px) {
+
+  .cardss {
+    width: 75%
+  }
+
+}
+
+@media (max-width: 360px) {
+
+  .cardss {
+    width: 80%
+  }
+}

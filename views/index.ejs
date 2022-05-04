@@ -30,7 +30,7 @@
           <li><a href="#Days7Chart">7 Day Forecast</a></li>
         </ul>
       </div>
-      <a class="btn btn-ghost normal-case text-2xl md:text-4xl" href="/">Weather App</a>
+      <a class="btn btn-ghost normal-case text-2xl md:text-4xl">Weather App</a>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal p-0">
@@ -39,7 +39,7 @@
       </ul>
     </div>
     <div class="navbar-end">
-      <label class="swap swap-rotate px-4 py-3" id="darkbutton">
+      <label class="swap swap-rotate mx-0" id="darkbutton">
         <input type="checkbox" id="darkmode" />
         <svg id="moon" class="swap-on fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
@@ -93,7 +93,7 @@
   <section class="mt-12">
     <div class="flex align-center justify-center">
       <div class="flex flex-col md:flex-row mx-auto lg:w-full gap-3 align-center justify-center">
-        <div class="card shadow-md bg-base-100 mx-auto md:mx-0 w-11/12 md:w-3/5 lg:w-2/5">
+        <div class="card shadow-md bg-base-100 mx-auto md:mx-0 cardss w-11/12 md:w-3/5 lg:w-2/5">
           <div class="card-body max-w-full">
             <h2 class="card-title text-2xl" id="date"> </h2>
             <h3 class="card-title" id="time"></h3>
@@ -123,12 +123,12 @@
           setInterval(updateDate, 500);
 
         </script>
-        <div class="card card-side shadow-md bg-primary mx-auto md:mx-0 w-11/12 md:w-3/5 lg:w-2/5 text-primary-content ">
+        <div class="card card-side shadow-md bg-primary mx-auto md:mx-0 cardss w-11/12 md:w-3/5 lg:w-2/5 text-primary-content ">
           <div class="card flex justify-center align-center">
             <figure>
               <img src="http://openweathermap.org/img/wn/<%= current.weather[0].icon %>@4x.png" alt="">
             </figure>
-            <p class="text-center"><%= current.weather[0].description %></p>
+            <p class="text-center break-all"><%= current.weather[0].description %></p>
             </div>
             <div class="card-body w-96">
               <h2 class="card-title break-normal"><%= label %></h2>
