@@ -1,4 +1,5 @@
 ::-webkit-scrollbar {
+  display:none;
   width: 10px;
   height: 10px;
 }
@@ -20,6 +21,8 @@
 
 html, body {
   font-family: "Montserrat", sans-serif;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .anchor{
