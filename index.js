@@ -65,7 +65,7 @@ app.route('/')
       }
     });
   })
-  .post((req, res) => {
+  .post( (req, res) => {
     location = req.body.city;
     // console.log(req.body.city);
     if (req.body.city === '') {

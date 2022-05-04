@@ -24,7 +24,11 @@ html, body {
 
 .anchor{
     display: block;
-    height: 115px; /*same height as header*/
-    margin-top: -115px; /*same height as header*/
+    height: 80px; /*same height as header*/
+    margin-top: -80px; /*same height as header*/
     visibility: hidden;
   }
+
+#logo {
+  width: max-content;
+}
