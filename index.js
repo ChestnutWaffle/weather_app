@@ -102,6 +102,10 @@ app.route('/')
                 let weather = JSON.parse(body1);
                 // console.log(weather);
                 // console.log(label);
+                if (weather === undefined) {
+                  res.redirect('/');
+                } else {
+                
                 var netOffset = (weather.timezone_offset) * 1000;
                 var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
                 var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
@@ -115,7 +119,9 @@ app.route('/')
                     hourlyData: hourlyData,
                     dailyData: dailyData
                   });
+                }
               }
+
             });
           }
         }

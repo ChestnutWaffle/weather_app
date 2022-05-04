@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="garden" class="bg-base-300 scroll-smooth" id="html">
+<html lang="en" data-theme="winter" class="bg-base-300 scroll-smooth" id="html">
 
 <head>
   <meta charset="UTF-8">
@@ -30,7 +30,7 @@
           <li><a href="#Days7Chart">7 Day Forecast</a></li>
         </ul>
       </div>
-      <a class="btn btn-ghost normal-case text-2xl md:text-4xl">Weather App</a>
+      <a class="btn btn-ghost normal-case text-2xl md:text-4xl" href="/">Weather App</a>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal p-0">
@@ -39,7 +39,7 @@
       </ul>
     </div>
     <div class="navbar-end">
-      <label class="swap swap-rotate mx-0" id="darkbutton">
+      <label class="swap swap-rotate px-4 py-3" id="darkbutton">
         <input type="checkbox" id="darkmode" />
         <svg id="moon" class="swap-on fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
@@ -61,7 +61,7 @@
       htmlTag.setAttribute("data-theme", "dark");
     }
     const lightMode = () => {
-      htmlTag.setAttribute("data-theme", "garden")
+      htmlTag.setAttribute("data-theme", "winter")
     }
 
     themeBtn.addEventListener("click", () => {
