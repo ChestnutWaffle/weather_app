@@ -18,19 +18,20 @@
 </head>
 
 <body class="bg-base-300">
-
-  <div class="navbar bg-base-100 shadow-lg p-6">
+  <div class="navbar bg-base-100 shadow-lg mod-p-4 p-6 ">
     <div class="navbar-start">
       <div class="dropdown">
-        <label tabindex="0" class="btn btn-ghost lg:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+        <label tabindex="0" class="btn btn-ghost lg:hidden mod-px">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
         </label>
         <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
           <li><a href="#HourlyChart">Hourly Forecast</a></li>
           <li><a href="#Days7Chart">7 Day Forecast</a></li>
         </ul>
       </div>
-      <a class="btn btn-ghost normal-case text-2xl md:text-4xl">Weather App</a>
+      <a class="btn btn-ghost normal-case text-2xl md:text-4xl mod-px">Weather App</a>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal p-0">
@@ -52,7 +53,6 @@
       </label>
     </div>
   </div>
-
   <script>
     var htmlTag = document.getElementById("html");
     var themeBtn = document.getElementById("darkmode");
@@ -111,27 +111,28 @@
           var dateUnix = new Date().getTime();
           var date = new Date(dateUnix + offset);
           var dateEl = document.getElementById("date");
-          dateEl.innerHTML = date.toLocaleString('en-US', {timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
+          dateEl.innerHTML = date.toLocaleString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
 
           function updateDate() {
             var unix = new Date().getTime();
             var date1 = new Date(unix + offset);
             var timeEl = document.getElementById("time");
-            timeEl.innerHTML = date1.toLocaleTimeString('en-US', {timeZone: "UTC", hour: '2-digit', minute: '2-digit', second: '2-digit'});
+            timeEl.innerHTML = date1.toLocaleTimeString('en-US', { timeZone: "UTC", hour: '2-digit', minute: '2-digit', second: '2-digit' });
           }
 
           setInterval(updateDate, 500);
 
         </script>
-        <div class="card card-side shadow-md bg-primary mx-auto md:mx-0 cardss w-11/12 md:w-3/5 lg:w-2/5 text-primary-content ">
-          <div class="card flex justify-center align-center">
+        <div
+          class="mod-card-side mod-card-compact card  shadow-md bg-primary mx-auto md:mx-0 cardss w-11/12 md:w-3/5 lg:w-2/5 text-primary-content ">
+          <div class="card flex justify-center align-center break-word">
             <figure>
               <img src="http://openweathermap.org/img/wn/<%= current.weather[0].icon %>@4x.png" alt="">
             </figure>
-            <p class="text-center break-normal px-4"><%= current.weather[0].description %></p>
+            <p class="text-center px-4"><%= current.weather[0].description %></p>
             </div>
             <div class="card-body w-96">
-              <h2 class="card-title break-normal"><%= label %></h2>
+              <h2 class="card-title break-words"><%= label %></h2>
               <h3 class="card-title text-2xl">
                 <div class="tooltip tooltip-right" data-tip="Temperature">
                   <i class="fa-solid fa-temperature-half"></i> <%= weather.current.temp %> &#176;C
@@ -229,9 +230,8 @@
         yAxisID: '<%= dataset.yAxisID %>',
           <% } %>
         tension: 0.4,
-          pointStyle: 'rectRounded',
-            pointRadius: 7,
-              pointHoverRadius: 10
+          pointRadius: 2,
+            pointHoverRadius: 3
     },
 
       <% }); %>
@@ -263,9 +263,8 @@
         yAxisID: '<%= dataset.yAxisID %>',
             <% } %>
         tension: 0.4,
-          pointStyle: 'rectRounded',
-            pointRadius: 7,
-              pointHoverRadius: 10
+          pointRadius: 2,
+            pointHoverRadius: 3
 
     },
 
@@ -280,6 +279,21 @@
       // type: 'line',
       data: hourlydata,
       options: {
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            align: 'end'
+          },
+          tooltip: {
+            mode: "index",
+            intersect: false,
+          },
+          hover: {
+            mode: "nearest",
+            intersect: true,
+          },
+        },
         bezierCurve: true,
         maintainAspectRatio: false,
         layout: {
@@ -289,23 +303,13 @@
           x: {
             title: {
               display: true,
-              text: 'Time'
+              text: 'TIME'
             }
           },
           y: {
             beginAtZero: false,
-            // display: false,
+            display: false
           },
-          yAxes: [{
-            id: "left-y-axis",
-            type: "linear",
-            position: "left",
-          }, {
-            id: "right-y-axis",
-            type: "linear",
-            position: "right",
-          },
-          ],
         }
       }
     });
@@ -315,6 +319,21 @@
       // type: 'line',
       data: dailydata,
       options: {
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            align: 'end'
+          },
+          tooltip: {
+            mode: "index",
+            intersect: false,
+          },
+          hover: {
+            mode: "nearest",
+            intersect: true,
+          },
+        },
         bezierCurve: true,
         maintainAspectRatio: false,
         responsive: true,
@@ -325,21 +344,16 @@
           x: {
             title: {
               display: true,
-              text: 'Date'
+              text: 'DATE'
             }
           },
           y: {
+            display: false,
             beginAtZero: false
           },
-          yAxes: [{
-            id: "right-y-axis",
-            type: "linear",
-            position: "right",
-          }],
         }
       }
     })
-
   </script>
   <footer class="footer p-10 bg-base-100 text-base-content mt-12">
     <div>

@@ -9,9 +9,9 @@ module.exports = function(daily, timezone_offset) {
   var pressures = [];
   var humidities = [];
   var winds = [];
-  var label =  ["Avg. Temperature (Celcius)", "Min. Temperature (Celcius)", "Max. Temperature (Celcius)", "% Humidity","Pressure (atm)",  "Wind Speed (m/sec)"];
+  var label =  ["Avg. Temperature (°C)", "Min. Temperature (°C)", "Max. Temperature (°C)", "% Humidity","Pressure (atm)",  "Wind Speed (m/sec)"];
   var types= ['line', 'line', 'line','line', 'bar',  'bar'];
-  var yAxisID = "right-y-axis";
+  var yAxisID = "left-y-axis";
 
   var backgroundColors = [
                 'rgba(255, 99, 132, 0.2)',
