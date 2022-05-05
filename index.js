@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const dotenv = require('dotenv');
+const session = require('express-session');
+
 
 dotenv.config();
 
@@ -12,6 +14,13 @@ const hourlyGraphData = require(__dirname + '/hourly.js');
 const dailyGraphData = require(__dirname + '/daily.js');
 
 const app = express();
+
+app.use(session({
+  secret: 'ASFGEHE',
+  resave: true,
+  saveUninitialized: true
+}));
+var ssn;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -24,7 +33,6 @@ const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 const GEO_API_KEY = process.env.GEO_API_KEY;
 
 
-var location = "NewDelhi,India";
 var label = 'New Delhi, DL, India';
 
 var lat = 28.557163;
@@ -35,19 +43,20 @@ var lon = 77.163665;
 
 app.route('/')
   .get((req, res) => {
-
-    location = "NewDelhi,India";
-    label = 'New Delhi, DL, India';
-    lat = 28.557163;
-    lon = 77.163665;
+    ssn = req.session
+    if (!(ssn.label || ssn.lat || ssn.lon)) {
+      ssn.label = label;
+      ssn.lat = lat;
+      ssn.lon = lon;
+    }
     // console.log(label);
-    var weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=metric&appid=${WEATHER_API_KEY}`;
+    var weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${ssn.lat}&lon=${ssn.lon}&exclude=minutely&units=metric&appid=${WEATHER_API_KEY}`;
     request(weatherUrl, function (err, response, body) {
       if (err) {
         res.render('index', { weather: null, error: 'Could not get weather data' });
       } else {
         let weather = JSON.parse(body);
-        // console.log(weather);
+        console.log(weather.current);
         // console.log(label);
         var netOffset = weather.timezone_offset * 1000;
         var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
@@ -57,7 +66,7 @@ app.route('/')
           {
             weather: weather,
             current: weather.current,
-            label: label,
+            label: ssn.label,
             offset: netOffset,
             hourlyData: hourlyData,
             dailyData: dailyData
@@ -65,13 +74,15 @@ app.route('/')
       }
     });
   })
-  .post( (req, res) => {
-    location = req.body.city;
+  .post((req, res) => {
+    ssn = req.session;
+
+    var location = req.body.city;
     // console.log(req.body.city);
     if (req.body.city === '') {
-      label = 'New Delhi, DL, India';
-      lat = 28.557163;
-      lon = 77.163665;
+      ssn.label = label
+      ssn.lat = lat;
+      ssn.lon = lon;
       res.redirect('/');
     } else {
       let geoCodingUrl = `http://api.positionstack.com/v1/forward?access_key=${GEO_API_KEY}&query=${location}`;
@@ -83,46 +94,46 @@ app.route('/')
           let geoData = JSON.parse(body);
           // console.log(geoData);
           if (geoData.error || geoData.data[0] === undefined) {
-            label = 'New Delhi, DL, India';
-            lat = 28.557163;
-            lon = 77.163665;
+            ssn.label = label
+            ssn.lat = lat;
+            ssn.lon = lon;
             res.redirect('/');
           } else {
-            lat = geoData.data[0].latitude;
-            lon = geoData.data[0].longitude;
+            ssn.lat = geoData.data[0].latitude;
+            ssn.lon = geoData.data[0].longitude;
 
-            label = geoData.data[0].label;
+            ssn.label = geoData.data[0].label;
             // console.log("longitude: "+lat+" longitude: "+ lon);
+            res.redirect('/')
+            // let weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=metric&appid=${WEATHER_API_KEY}`;
+            // request(weatherUrl, function (err1, response1, body1) {
+            //   if (err1) {
+            //     res.render('index', { weather: null, error: 'Could not get weather data' });
+            //   } else {
+            //     let weather = JSON.parse(body1);
+            //     // console.log(weather);
+            //     // console.log(label);
+            //     if (weather === undefined) {
+            //       res.redirect('/');
+            //     } else {
 
-            let weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=metric&appid=${WEATHER_API_KEY}`;
-            request(weatherUrl, function (err1, response1, body1) {
-              if (err1) {
-                res.render('index', { weather: null, error: 'Could not get weather data' });
-              } else {
-                let weather = JSON.parse(body1);
-                // console.log(weather);
-                // console.log(label);
-                if (weather === undefined) {
-                  res.redirect('/');
-                } else {
-                
-                var netOffset = (weather.timezone_offset) * 1000;
-                var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
-                var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
-                // console.log(dailyData.datasets[0].yAxisID);
-                res.render('index',
-                  {
-                    weather: weather,
-                    current: weather.current,
-                    label: label,
-                    offset: netOffset,
-                    hourlyData: hourlyData,
-                    dailyData: dailyData
-                  });
-                }
-              }
+            //       var netOffset = (weather.timezone_offset) * 1000;
+            //       var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
+            //       var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
+            //       // console.log(dailyData.datasets[0].yAxisID);
+            //       res.render('index',
+            //         {
+            //           weather: weather,
+            //           current: weather.current,
+            //           label: label,
+            //           offset: netOffset,
+            //           hourlyData: hourlyData,
+            //           dailyData: dailyData
+            //         });
+            //     }
+            //   }
 
-            });
+            // });
           }
         }
       });

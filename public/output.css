@@ -6281,10 +6281,6 @@ body[dir="rtl"] .checkbox:checked,
   margin-top: 0.5rem;
 }
 
-.ml-0 {
-  margin-left: 0px;
-}
-
 .box-border {
   box-sizing: border-box;
 }
@@ -7308,16 +7304,6 @@ body[dir="rtl"] .checkbox:checked,
   background-color: rgb(255 0 0 / var(--tw-bg-opacity));
 }
 
-.bg-info-content {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--inc, var(--nc)) / var(--tw-bg-opacity));
-}
-
-.bg-base-content {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--bc) / var(--tw-bg-opacity));
-}
-
 .bg-\[url\(\'\.\.\.\'\)\] {
   background-image: url('...');
 }
@@ -7480,6 +7466,11 @@ body[dir="rtl"] .checkbox:checked,
   padding: 0.25rem;
 }
 
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -7502,10 +7493,6 @@ body[dir="rtl"] .checkbox:checked,
 
 .pt-16 {
   padding-top: 4rem;
-}
-
-.pl-0 {
-  padding-left: 0px;
 }
 
 .text-left {
