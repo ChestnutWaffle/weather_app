@@ -56,7 +56,7 @@ app.route('/')
         res.render('index', { weather: null, error: 'Could not get weather data' });
       } else {
         let weather = JSON.parse(body);
-        // console.log(weather.current);
+        // console.log(weather);
         // console.log(label);
         var netOffset = weather.timezone_offset * 1000;
         var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
@@ -88,7 +88,10 @@ app.route('/')
       let geoCodingUrl = `http://api.positionstack.com/v1/forward?access_key=${GEO_API_KEY}&query=${location}`;
       request(geoCodingUrl, function (err, response, body) {
         if (err) {
-          res.render('index', { weather: null, error: 'Could not get location. Please try again.' });
+          ssn.label = label
+          ssn.lat = lat;
+          ssn.lon = lon;
+          res.redirect('/');
         } else {
 
           let geoData = JSON.parse(body);
@@ -111,40 +114,40 @@ app.route('/')
     }
   });
 
-  app.post('/location', (req, res) => {
-    ssn = req.session;
-    let data = req.body;
+app.post('/location', (req, res) => {
+  ssn = req.session;
+  let data = req.body;
 
-    if (data === '' || data === undefined) {
+  if (data === '' || data === undefined) {
+    res.redirect('/');
+  } else {
+    ssn.lat = data.lat;
+    ssn.lon = data.lon;
+
+    let revGeoUrl = `http://api.positionstack.com/v1/reverse?access_key=${GEO_API_KEY}&query=${ssn.lat},${ssn.lon}`;
+
+    request(revGeoUrl, (err, response, body) => {
+      if (err) {
+        ssn.label = "New Delhi, DL, India";
+        ssn.lat = 13.123123;
+        ssn.lon = 23.213123;
         res.redirect('/');
-    } else {
-        ssn.lat = data.lat;
-        ssn.lon = data.lon;
+      } else {
+        let revGeoData = JSON.parse(body);
+        if (revGeoData.error || revGeoData.data[0] === undefined) {
+          ssn.label = label
+          ssn.lat = lat;
+          ssn.lon = lon;
+          res.redirect('/');
+        } else {
+          ssn.label = `Near ${revGeoData.data[0].label}`;
+          // console.log("longitude: "+lat+" longitude: "+ lon);
+          res.redirect('/')
 
-        let revGeoUrl = `http://api.positionstack.com/v1/reverse?access_key=${GEO_API_KEY}&query=${ssn.lat},${ssn.lon}`;
-
-        request(revGeoUrl, (err, response, body) => {
-            if (err) {
-                ssn.label = "New Delhi, DL, India";
-                ssn.lat = 13.123123;
-                ssn.lon = 23.213123;
-                res.redirect('/');
-            } else {
-                let revGeoData = JSON.parse(body);
-                if (revGeoData.error || revGeoData.data[0] === undefined) {
-                    ssn.label = label
-                    ssn.lat = lat;
-                    ssn.lon = lon;
-                    res.redirect('/');
-                } else {
-                    ssn.label = `Near ${revGeoData.data[0].label}`;
-                    // console.log("longitude: "+lat+" longitude: "+ lon);
-                    res.redirect('/')
-                    
-                }
-            }
-        })
-    }
+        }
+      }
+    })
+  }
 })
 
 
