@@ -56,7 +56,7 @@ app.route('/')
         res.render('index', { weather: null, error: 'Could not get weather data' });
       } else {
         let weather = JSON.parse(body);
-        // console.log(weather);
+        // console.log(weather.current);
         // console.log(label);
         var netOffset = weather.timezone_offset * 1000;
         var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
@@ -148,6 +148,10 @@ app.post('/location', (req, res) => {
       }
     })
   }
+})
+
+app.get("*", (req, res) => {
+  res.redirect('/');
 })
 
 

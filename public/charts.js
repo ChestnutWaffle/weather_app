@@ -20,9 +20,6 @@ const hourlyChart = new Chart(ctx, {
         },
         bezierCurve: true,
         maintainAspectRatio: false,
-        layout: {
-            padding: 10
-        },
         scales: {
             x: {
                 title: {
@@ -61,9 +58,6 @@ const dailyChart = new Chart(ctx2, {
         bezierCurve: true,
         maintainAspectRatio: false,
         responsive: true,
-        layout: {
-            padding: 10
-        },
         scales: {
             x: {
                 title: {
