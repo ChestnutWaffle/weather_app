@@ -54,7 +54,7 @@ body {
   }
 
   .mod-card-compact .card-title {
-    padding-right: 3rem;
+    padding-right: 2rem;
   }
 
 }
@@ -66,7 +66,7 @@ body {
   }
 
   .mod-card-compact .card-title {
-    padding-right: 4rem;
+    padding-right: 2rem;
   }
 
 }
@@ -90,7 +90,7 @@ body {
     margin-bottom: 0.25rem
       /* 4px */
     ;
-    padding-right: 6rem;
+    padding-right: 4rem;
   }
 
 
@@ -110,6 +110,13 @@ body {
     padding: 0.833rem;
   }
 
+  .mod-card-compact .card-title {
+    margin-bottom: 0.25rem
+      /* 4px */
+    ;
+    padding-right: 5rem;
+  }
+
   .cardss {
     width: 80%
   }
@@ -124,6 +131,12 @@ body {
     padding: 0.667rem;
   }
 
+  .mod-card-compact .card-title {
+    margin-bottom: 0.25rem
+      /* 4px */
+    ;
+    padding-right: 6.25rem;
+  }
   .cardss {
     width: 75%
   }
@@ -141,6 +154,12 @@ body {
     padding: 0.5rem;
   }
 
+  .mod-card-compact .card-title {
+    margin-bottom: 0.25rem
+      /* 4px */
+    ;
+    padding-right: 8rem;
+  }
 
   .cardss {
     width: 70%
@@ -154,6 +173,13 @@ body {
 
   .mod-px {
     padding: 0.25rem
+  }
+
+  .mod-card-compact .card-title {
+    margin-bottom: 0.25rem
+      /* 4px */
+    ;
+    padding-right: 8.5rem;
   }
 
   .cardss {
