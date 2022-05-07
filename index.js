@@ -139,8 +139,8 @@ app.route('/')
                 } else {
                     ssn.label = `Near ${revGeoData.data[0].label}`;
                     // console.log("longitude: "+lat+" longitude: "+ lon);
-                    // res.redirect('/')
-                    res.redirect('/');
+                    res.redirect('/')
+                    
                 }
             }
         })
