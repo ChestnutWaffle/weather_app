@@ -56,7 +56,7 @@ app.route('/')
         res.render('index', { weather: null, error: 'Could not get weather data' });
       } else {
         let weather = JSON.parse(body);
-        console.log(weather.current);
+        // console.log(weather.current);
         // console.log(label);
         var netOffset = weather.timezone_offset * 1000;
         var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
@@ -105,40 +105,48 @@ app.route('/')
             ssn.label = geoData.data[0].label;
             // console.log("longitude: "+lat+" longitude: "+ lon);
             res.redirect('/')
-            // let weatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=metric&appid=${WEATHER_API_KEY}`;
-            // request(weatherUrl, function (err1, response1, body1) {
-            //   if (err1) {
-            //     res.render('index', { weather: null, error: 'Could not get weather data' });
-            //   } else {
-            //     let weather = JSON.parse(body1);
-            //     // console.log(weather);
-            //     // console.log(label);
-            //     if (weather === undefined) {
-            //       res.redirect('/');
-            //     } else {
-
-            //       var netOffset = (weather.timezone_offset) * 1000;
-            //       var hourlyData = hourlyGraphData(weather.hourly, weather.timezone_offset);
-            //       var dailyData = dailyGraphData(weather.daily, weather.timezone_offset);
-            //       // console.log(dailyData.datasets[0].yAxisID);
-            //       res.render('index',
-            //         {
-            //           weather: weather,
-            //           current: weather.current,
-            //           label: label,
-            //           offset: netOffset,
-            //           hourlyData: hourlyData,
-            //           dailyData: dailyData
-            //         });
-            //     }
-            //   }
-
-            // });
           }
         }
       });
     }
   });
+
+  app.post('/location', (req, res) => {
+    ssn = req.session;
+    let data = req.body;
+
+    if (data === '' || data === undefined) {
+        res.redirect('/');
+    } else {
+        ssn.lat = data.lat;
+        ssn.lon = data.lon;
+
+        let revGeoUrl = `http://api.positionstack.com/v1/reverse?access_key=${GEO_API_KEY}&query=${ssn.lat},${ssn.lon}`;
+
+        request(revGeoUrl, (err, response, body) => {
+            if (err) {
+                ssn.label = "New Delhi, DL, India";
+                ssn.lat = 13.123123;
+                ssn.lon = 23.213123;
+                res.redirect('/');
+            } else {
+                let revGeoData = JSON.parse(body);
+                if (revGeoData.error || revGeoData.data[0] === undefined) {
+                    ssn.label = label
+                    ssn.lat = lat;
+                    ssn.lon = lon;
+                    res.redirect('/');
+                } else {
+                    ssn.label = `Near ${revGeoData.data[0].label}`;
+                    // console.log("longitude: "+lat+" longitude: "+ lon);
+                    // res.redirect('/')
+                    res.redirect('/');
+                }
+            }
+        })
+    }
+})
+
 
 
 app.listen(process.env.PORT || 3000, () => {

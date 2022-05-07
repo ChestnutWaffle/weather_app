@@ -26,7 +26,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
           </svg>
         </label>
-        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+        <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow-xl bg-base-100 rounded-box w-52">
           <li><a href="#HourlyChart">Hourly Forecast</a></li>
           <li><a href="#Days7Chart">7 Day Forecast</a></li>
         </ul>
@@ -53,44 +53,30 @@
       </label>
     </div>
   </div>
-  <script>
-    var htmlTag = document.getElementById("html");
-    var themeBtn = document.getElementById("darkmode");
-
-    const darkMode = () => {
-      htmlTag.setAttribute("data-theme", "dark");
-    }
-    const lightMode = () => {
-      htmlTag.setAttribute("data-theme", "winter")
-    }
-
-    themeBtn.addEventListener("click", () => {
-      // Get the value of the "dark" item from the local storage on every click
-      setDarkMode = localStorage.getItem('dark');
-      if (setDarkMode !== "on") {
-        darkMode();
-        // Set the value of the itwm to "on" when dark mode is on
-        localStorage.setItem('dark', 'on');
-      } else {
-        lightMode();
-        // Set the value of the item to  "null" when dark mode if off
-        localStorage.setItem('dark', 'off');
-      }
-    });
-
-    // Get the value of the "dark" item from the local storage
-    let setDarkMode = localStorage.getItem('dark');
-
-    // Check dark mode is on or off on page reload
-    if (setDarkMode === 'on') {
-      darkMode();
-      document.getElementById('moon').classList.remove('swap-on');
-      document.getElementById('moon').classList.add('swap-off');
-      document.getElementById('sun').classList.remove('swap-off');
-      document.getElementById('sun').classList.add('swap-on');
-    }
-  </script>
+  <script src="darkmode.js"></script>
+  <section class="mt-12 ">
+    <div class="w-full lg:w-10/12 lg:mb-0 px-4 mx-auto mt-6">
+      <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-2xl bg-base-100">
+        <div id="alert-box" class="mod-alert">
+          <div>
+            <div id="details">
+              <h3 class="font-bold">Get the weather at your location</h3>
+              <div class="text-xs">Click the button and Grant Location permission to get the weather at your location.</div>
+            </div>
+          </div>
+          <div class="flex-none">
+            <button class="btn btn-primary btn-sm " onclick="getLocation()">Go</button>
+          </div>
+        </div>
+        <div id="progress" class="w-full px-4 py-2 hidden rounded-2xl">
+          <progress class="progress progress-primary w-full"></progress>
+        </div>
+      </div>
+    </div>
+    <script src="currentLoc.js"></script>
+  </section>
   <section class="mt-12">
+    <!-- <div class="relative flex min-w-0 break-words w-full mb-6 rounded-2xl"> -->
     <div class="flex align-center justify-center">
       <div class="flex flex-col md:flex-row mx-auto lg:w-full gap-3 align-center justify-center">
         <div class="card shadow-md bg-base-100 mx-auto md:mx-0 cardss w-11/12 md:w-3/5 lg:w-2/5">
@@ -106,23 +92,10 @@
             </form>
           </div>
         </div>
-        <script type="text/javascript">
+        <script>
           var offset = <%= offset %>;
-          var dateUnix = new Date().getTime();
-          var date = new Date(dateUnix + offset);
-          var dateEl = document.getElementById("date");
-          dateEl.innerHTML = date.toLocaleString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
-
-          function updateDate() {
-            var unix = new Date().getTime();
-            var date1 = new Date(unix + offset);
-            var timeEl = document.getElementById("time");
-            timeEl.innerHTML = date1.toLocaleTimeString('en-US', { timeZone: "UTC", hour: '2-digit', minute: '2-digit', second: '2-digit' });
-          }
-
-          setInterval(updateDate, 500);
-
         </script>
+        <script type="text/javascript" src="dateTime.js"></script>
         <div
           class="mod-card-side mod-card-compact card  shadow-md bg-primary mx-auto md:mx-0 cardss w-11/12 md:w-3/5 lg:w-2/5 text-primary-content ">
           <div class="card flex justify-center align-center break-word">
@@ -162,7 +135,7 @@
 
   <span class="anchor" id="HourlyChart"></span>
   <section class="pt-16 ">
-    <div class="w-full xl:w-10/12 xl:mb-0 px-4 mx-auto mt-6">
+    <div class="w-full lg:w-10/12 lg:mb-0 px-4 mx-auto mt-6">
       <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-2xl bg-base-100">
         <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
           <div class="flex flex-wrap items-center">
@@ -182,7 +155,7 @@
   </section>
   <span class="anchor" id="Days7Chart"></span>
   <section class="pt-16 ">
-    <div class="w-full xl:w-10/12 xl:mb-0 px-4 mx-auto mt-6">
+    <div class="w-full lg:w-10/12 lg:mb-0 px-4 mx-auto mt-6">
       <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-2xl bg-base-100">
         <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
           <div class="flex flex-wrap items-center">
@@ -207,36 +180,35 @@
 
     const hourlydata = {
       labels: [
-      <% (hourlyData.labels).forEach((time) => { %>
-        '<%= time %>',
-      <% }); %>
-    ],
-    datasets: [
-      <% (hourlyData.datasets).forEach((dataset) => { %>
-
-    {
-      type: '<%= dataset.type %>',
-      label: '<%= dataset.label %>',
-      data: [
-            <% (dataset.data).forEach((data) => { %>
-              <%= data %>,
-            <% }) %>
-          ],
-      backgroundColor: '<%= dataset.backgroundColor %>',
-      borderColor: '<%= dataset.borderColor %>',
-      borderWidth: <%= dataset.borderWidth %>,
-      borderJoinStyle: 'round',
-          <% if (dataset.yAxisID) { %>
-        yAxisID: '<%= dataset.yAxisID %>',
-          <% } %>
-        tension: 0.4,
-          pointRadius: 2,
+        <% (hourlyData.labels).forEach((time) => { %>
+          '<%= time %>',
+        <% }); %>
+      ],
+      datasets: [
+          <% (hourlyData.datasets).forEach((dataset) => { %>
+          {
+            type: '<%= dataset.type %>',
+            label: '<%= dataset.label %>',
+            data: [
+                  <% (dataset.data).forEach((data) => { %>
+                    <%= data %>,
+                  <% }) %>
+                ],
+            backgroundColor: '<%= dataset.backgroundColor %>',
+            borderColor: '<%= dataset.borderColor %>',
+            borderWidth: <%= dataset.borderWidth %>,
+            borderCapStyle: 'square',
+            borderJoinStyle: 'round',
+            <% if (dataset.yAxisID) { %>
+              yAxisID: '<%= dataset.yAxisID %>',
+            <% } %>
+            tension: 0.4,
+            pointRadius: 2,
             pointHoverRadius: 3
-    },
-
-      <% }); %>
-    ]
-}
+          },
+          <% }); %>
+      ]
+    }
 
     const dailydata = {
       labels: [
@@ -244,117 +216,35 @@
         '<%= time %>',
         <% }); %>
       ],
-    datasets: [
+      datasets: [
         <% (dailyData.datasets).forEach((dataset) => { %>
-
-    {
-      type: '<%= dataset.type %>',
-      label: '<%= dataset.label %>',
-      data: [
-                <% (dataset.data).forEach((data) => { %>
-                  <%= data %>,
-                <% }) %>
-              ],
-      backgroundColor: '<%= dataset.backgroundColor %>',
-      borderColor: '<%= dataset.borderColor %>',
-      borderWidth: <%= dataset.borderWidth %>,
-      borderJoinStyle: 'round',
+          {
+            type: '<%= dataset.type %>',
+            label: '<%= dataset.label %>',
+            data: [
+                      <% (dataset.data).forEach((data) => { %>
+                        <%= data %>,
+                      <% }) %>
+                    ],
+            backgroundColor: '<%= dataset.backgroundColor %>',
+            borderColor: '<%= dataset.borderColor %>',
+            borderWidth: <%= dataset.borderWidth %>,
+            borderCapStyle: 'square',
+            borderJoinStyle: 'round',
             <% if (dataset.yAxisID) { %>
-        yAxisID: '<%= dataset.yAxisID %>',
+              yAxisID: '<%= dataset.yAxisID %>',
             <% } %>
-        tension: 0.4,
-          pointRadius: 2,
+            tension: 0.4,
+            pointRadius: 2,
             pointHoverRadius: 3
 
-    },
-
+          },
         <% }); %>
       ]
-}
+    }
 
-
-
-    const ctx = document.getElementById('hourly');
-    const hourlyChart = new Chart(ctx, {
-      // type: 'line',
-      data: hourlydata,
-      options: {
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            align: 'end'
-          },
-          tooltip: {
-            mode: "index",
-            intersect: false,
-          },
-          hover: {
-            mode: "nearest",
-            intersect: true,
-          },
-        },
-        bezierCurve: true,
-        maintainAspectRatio: false,
-        layout: {
-          padding: 10
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'TIME'
-            }
-          },
-          y: {
-            beginAtZero: false,
-            display: false
-          },
-        }
-      }
-    });
-
-    const ctx2 = document.getElementById('daily');
-    const dailyChart = new Chart(ctx2, {
-      // type: 'line',
-      data: dailydata,
-      options: {
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            align: 'end'
-          },
-          tooltip: {
-            mode: "index",
-            intersect: false,
-          },
-          hover: {
-            mode: "nearest",
-            intersect: true,
-          },
-        },
-        bezierCurve: true,
-        maintainAspectRatio: false,
-        responsive: true,
-        layout: {
-          padding: 10
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'DATE'
-            }
-          },
-          y: {
-            display: false,
-            beginAtZero: false
-          },
-        }
-      }
-    })
   </script>
+  <script src="charts.js"></script>
   <footer class="footer p-10 bg-base-100 text-base-content mt-12">
     <div>
       <i class="fa-solid fa-dice-two fa-5x"></i>

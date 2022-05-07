@@ -53,12 +53,20 @@ body {
     width: 95%
   }
 
+  .mod-card-compact .card-title {
+    padding-right: 3rem;
+  }
+
 }
 
 @media (max-width: 370px) {
 
   .cardss {
     width: 90%
+  }
+
+  .mod-card-compact .card-title {
+    padding-right: 4rem;
   }
 
 }
@@ -169,4 +177,14 @@ body {
     height: 100%;
     object-fit: cover;
   }
+}
+
+.mod-alert {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: var(--rounded-box, 1rem);
 }
