@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather App</title>
+  <link rel="shortcut icon" href="cloudy.png" type="image/x-icon">
+  <meta name="description" content="An Amazing Weather Web App to find the weather at your Location or any place you want to!There's also some great visualizations using charts.">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
     integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -18,6 +20,7 @@
 </head>
 
 <body class="bg-base-300">
+  <header>    
   <div class="navbar bg-base-100 shadow-lg mod-p-4 p-6 ">
     <div class="navbar-start">
       <div class="dropdown">
@@ -93,15 +96,16 @@
       document.getElementById('sun').classList.add('swap-on');
     }
   </script>
+
+</header>
   <section class="mt-12 ">
     <div class="w-full lg:w-10/12 lg:mb-0 px-4 mx-auto mt-6">
       <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-2xl bg-base-100">
         <div id="alert-box" class="mod-alert">
           <div>
             <div id="details">
-              <h3 class="font-bold mb-2">Get the weather at your location</h3>
-              <div class="text-xs">Click the button and Grant Location permission to get the weather at your location.
-              </div>
+              <h3 class="font-bold mb-2">Find weather at your location</h3>
+              <div class="text-xs">Click the button and grant location permission to find weather at your location</div>
             </div>
           </div>
           <div class="flex-none">
@@ -142,7 +146,7 @@
             <div class="flex flex-col justify-center">
               <figure>
                 <!-- <img src="https://api.lorem.space/image/album?w=400&h=400" alt="Album"> -->
-                <img src="http://openweathermap.org/img/wn/<%= current.weather[0].icon %>@4x.png"
+                <img src="https://openweathermap.org/img/wn/<%= current.weather[0].icon %>@4x.png"
                   alt="<%= current.weather[0].description %>">
               </figure>
               <!-- <h3 class="text-center">Description</h3> -->
