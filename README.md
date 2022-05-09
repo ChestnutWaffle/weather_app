@@ -10,3 +10,6 @@ Run this in command line to install all dependencies
 
 Run this to get the web app running in localhost
 > node index.js
+
+
+#### Note: Doesn't include the API Keys which are in .env file
