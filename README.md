@@ -1,6 +1,6 @@
 # weather_app
 
-### live at https://weather-app-ketan.herokuapp.com/
+### Live at https://weather-app-ketan.herokuapp.com/
 
 ### Clone the repo and do the following to get it working on a local computer
 
